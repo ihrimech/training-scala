@@ -57,4 +57,14 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     merchandise.isCheap(cheapLimit) shouldBe false
     merchandise.isCheap(13) shouldBe true
   }
+
+  "sixth Exercise" should "define a % infix operator for promotions" in {
+    Given("A merchandise with a price of 100")
+    val merchandise = new Merchandise("testMerchandise", price = 100)
+    val purchase = new Purchase(merchandise, 2, 12)
+    When("defining a 50% promotion")
+    val promotion = 0.5
+    Then("the returned price should be half the original")
+    purchase % promotion shouldBe 50
+  }
 }
