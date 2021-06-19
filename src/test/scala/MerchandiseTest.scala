@@ -48,4 +48,13 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     purchase.asMinutes shouldEqual purchaseTime
   }
 
+  "fifth Exercise" should "define a isCheapMethod" in {
+    Given("A merchandise with a price of 12")
+    val merchandise = new Merchandise("testMerchandise", price = 12)
+    When("defining the cheap limit to 11")
+    val cheapLimit = 11
+    Then("the merchandise shouldn't be cheap")
+    merchandise.isCheap(cheapLimit) shouldBe false
+    merchandise.isCheap(13) shouldBe true
+  }
 }
