@@ -13,4 +13,18 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     Then("the implementation should have worked")
     price shouldBe 1.4d
   }
+
+  "second Exercice" should "promote parameters to fields" in {
+    Given("A merchandise to implement")
+    val name = "testMerchandise"
+    val price = 1.4d
+    When("Implementing the class merchandise")
+    val merchandise = new Merchandise(name = name, price = price)
+    Then("The promotion should work")
+    merchandise.price shouldBe price
+    merchandise.name shouldBe name
+    And("the description field should be correctly constructed")
+    merchandise.description.contains(price.toString) shouldBe true
+    merchandise.description.contains(name) shouldBe true
+  }
 }
