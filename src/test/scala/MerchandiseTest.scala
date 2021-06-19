@@ -38,4 +38,14 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     purchase.minutes shouldBe 12
   }
 
+  "fourth Exercise" should "correctly calculates minutes" in {
+    Given("A merchandise and a purchase")
+    val merchandise = new Merchandise("testMerchandise", price = 12)
+    val purchase = new Purchase(merchandise, 2, 12)
+    When("Calculating purchase time in minutes")
+    val purchaseTime = 2*60 + 12
+    Then("it shoud be the same as in purchase's asMinutes field")
+    purchase.asMinutes shouldEqual purchaseTime
+  }
+
 }
