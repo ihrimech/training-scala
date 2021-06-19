@@ -4,7 +4,7 @@ import org.scalatest.matchers.should
 
 class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThen{
 
-  "First Exercice" should "Implement a Merchandise Class" in {
+  "First Exercise" should "Implement a Merchandise Class" in {
     Given("A merchandise to implement")
     val name = "testMerchandise"
     val price = 1.4d
@@ -14,7 +14,7 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     price shouldBe 1.4d
   }
 
-  "second Exercice" should "promote parameters to fields" in {
+  "second Exercise" should "promote parameters to fields" in {
     Given("A merchandise to implement")
     val name = "testMerchandise"
     val price = 1.4d
@@ -27,4 +27,15 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     merchandise.description.contains(price.toString) shouldBe true
     merchandise.description.contains(name) shouldBe true
   }
+
+  "third Exercise" should "create a purchase with promoter parameters" in {
+    Given("A merchandise to implement")
+    val merchandise = new Merchandise("testMerchandise", price = 12)
+    When("Creating a purchase")
+    val purchase = new Purchase(merchandise, 23, 12)
+    Then("purchase should have promoted fields")
+    purchase.hours shouldBe 23
+    purchase.minutes shouldBe 12
+  }
+
 }
