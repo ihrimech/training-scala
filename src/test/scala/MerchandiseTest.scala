@@ -67,4 +67,22 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     Then("the returned price should be half the original")
     purchase % promotion shouldBe 50
   }
+
+  "seventh Exercise" should "define default arguments" in {
+    Given("A purchase without hours and minutes")
+    val merchandise = new Merchandise("testMerchandise", price = 100)
+    val purchase = new Purchase(merchandise)
+    Then("default hours and minutes should be zéro")
+    purchase.hours shouldBe 0
+    purchase.minutes shouldBe 0
+  }
+  it should "define a cheaperThan method" in {
+    Given("two merchandise with prices of 10 and 20")
+    val merchandise1 = new Merchandise("testMerchandise", price = 10)
+    val merchandise2 = new Merchandise("testMerchandise2", price = 20)
+    When("Comparing both merchandises")
+    val isCheaper = merchandise1 isCheaperThan merchandise2
+    Then("result should be true")
+    assert(isCheaper, "Method isCheaperThan isn't working properly")
+  }
 }
