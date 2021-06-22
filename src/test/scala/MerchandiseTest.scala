@@ -92,7 +92,7 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
   "ninth exercise" should "be able to make a purchase in a store" in {
     Given("A WebsiteStore instance")
     val merchandise = new Merchandise("polo", price = 34)
-    val websiteStore = new WebsiteStore(merchandise, 10)
+    val websiteStore = WebsiteStore(merchandise, 10)
     When("Making a purchase or cancelling one")
     val websiteStoreMakePurchase = Purchase.makePurchase(websiteStore)
     val websiteStoreCancelPurchase = Purchase.cancelPurchase(websiteStore)
