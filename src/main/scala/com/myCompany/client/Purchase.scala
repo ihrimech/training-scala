@@ -1,4 +1,4 @@
-package com.myCompany.purchase
+package com.myCompany.client
 
 import com.myCompany.merchandise.Merchandise
 import com.myCompany.store.WebsiteStore
@@ -16,7 +16,13 @@ class Purchase(val merchandise: Merchandise, val hours: Int = 0, val minutes: In
 
 object Purchase {
 
-  def makePurchase(websiteStore: WebsiteStore): WebsiteStore = websiteStore.copy(quantity = websiteStore.quantity - 1)
+  def makePurchase(websiteStore: WebsiteStore, client: WebsiteClient): WebsiteStore = {
+    if(client.verified) websiteStore.copy(quantity = websiteStore.quantity - 1)
+    else websiteStore
+  }
 
-  def cancelPurchase(websiteStore: WebsiteStore): WebsiteStore = websiteStore.copy(quantity = websiteStore.quantity + 1)
+  def cancelPurchase(websiteStore: WebsiteStore, client: WebsiteClient): WebsiteStore = {
+    if(client.verified) websiteStore.copy(quantity = websiteStore.quantity + 1)
+    else websiteStore
+  }
 }

@@ -1,5 +1,5 @@
 import com.myCompany.merchandise.Merchandise
-import com.myCompany.purchase.Purchase
+import com.myCompany.client.{Purchase, WebsiteClient}
 import com.myCompany.store.WebsiteStore
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
@@ -93,9 +93,10 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     Given("A WebsiteStore instance")
     val merchandise = new Merchandise("polo", price = 34)
     val websiteStore = WebsiteStore(merchandise, 10)
+    val client = WebsiteClient("Rick", verified = true)
     When("Making a purchase or cancelling one")
-    val websiteStoreMakePurchase = Purchase.makePurchase(websiteStore)
-    val websiteStoreCancelPurchase = Purchase.cancelPurchase(websiteStore)
+    val websiteStoreMakePurchase = Purchase.makePurchase(websiteStore, client)
+    val websiteStoreCancelPurchase = Purchase.cancelPurchase(websiteStore, client)
     Then("the quantity must have been lower in a purchase")
     websiteStoreMakePurchase.quantity shouldEqual websiteStore.quantity - 1
     websiteStoreCancelPurchase.quantity shouldEqual websiteStore.quantity + 1
@@ -111,5 +112,16 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     assertThrows[IllegalArgumentException](new Purchase(merchandise, 0, 120))
     assertThrows[IllegalArgumentException](new Purchase(merchandise, 0, -3))
     new Purchase(merchandise, 0, 0).asMinutes shouldEqual 0
+  }
+
+  "thirteenth exercise" should "test that a client cannot make a purchase unless verified" in {
+    Given("A client that isn't verified")
+    val merchandise = new Merchandise("marco", price = 4)
+    val websiteStore = WebsiteStore(merchandise, 1)
+    val client = WebsiteClient("Rick", verified = false)
+    When("Making a purchase")
+    val newWebsiteStore = Purchase.makePurchase(websiteStore, client)
+    Then("The quantity shouldn't change")
+    newWebsiteStore.quantity shouldEqual websiteStore.quantity
   }
 }

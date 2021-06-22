@@ -1,7 +1,7 @@
 package com.myCompany
 
 import com.myCompany.merchandise.Merchandise
-import com.myCompany.purchase.Purchase
+import com.myCompany.client.{Purchase, WebsiteClient}
 import com.myCompany.store.WebsiteStore
 
 object MainApplication extends App {
@@ -13,7 +13,8 @@ object MainApplication extends App {
     merchandise = merchandise,
     quantity = 10
   )
-  val storeAfterPurchase = Purchase.makePurchase(websiteStore)
+  val client = WebsiteClient(name = "Rick", verified = true)
+  val storeAfterPurchase = Purchase.makePurchase(websiteStore, client)
 
   println("purchased " + storeAfterPurchase.merchandise.name + ". Quantity left: " + storeAfterPurchase.quantity)
 }
