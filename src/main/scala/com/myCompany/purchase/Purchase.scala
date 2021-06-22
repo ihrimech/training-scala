@@ -1,3 +1,7 @@
+package com.myCompany.purchase
+
+import com.myCompany.merchandise.Merchandise
+
 class Purchase(val merchandise: Merchandise, val hours: Int = 0, val minutes: Int = 0) {
   // TODO verifier que hours est comprise entre 0 et 23
   // TODO verifier que minutes est comprise entre 0 et 59
