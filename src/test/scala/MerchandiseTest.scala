@@ -1,10 +1,12 @@
+import com.myCompany.merchandise.Merchandise
+import com.myCompany.purchase.Purchase
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 
 class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThen{
 
-  "First Exercise" should "Implement a Merchandise Class" in {
+  "First Exercise" should "Implement a com.myCompany.merchandise.Merchandise Class" in {
     Given("A merchandise to implement")
     val name = "testMerchandise"
     val price = 1.4d
