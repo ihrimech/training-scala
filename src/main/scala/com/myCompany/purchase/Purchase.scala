@@ -16,7 +16,7 @@ class Purchase(val merchandise: Merchandise, val hours: Int = 0, val minutes: In
 
 object Purchase {
 
-  def makePurchase(websiteStore: WebsiteStore) = new WebsiteStore(websiteStore.merchandise, websiteStore.quantity - 1)
+  def makePurchase(websiteStore: WebsiteStore): WebsiteStore = websiteStore.copy(quantity = websiteStore.quantity - 1)
 
-  def cancelPurchase(websiteStore: WebsiteStore) = new WebsiteStore(websiteStore.merchandise, websiteStore.quantity + 1)
+  def cancelPurchase(websiteStore: WebsiteStore): WebsiteStore = websiteStore.copy(quantity = websiteStore.quantity + 1)
 }

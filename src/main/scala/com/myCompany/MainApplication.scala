@@ -9,7 +9,7 @@ object MainApplication extends App {
     name = "jeans",
     price = 40.0
   )
-  val websiteStore = new WebsiteStore(
+  val websiteStore = WebsiteStore(
     merchandise = merchandise,
     quantity = 10
   )
