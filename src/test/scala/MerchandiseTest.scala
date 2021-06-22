@@ -146,4 +146,17 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     assert(clientAfterPurchase.purchases.contains(purchase1))
     assert(!clientRemovePurchase.purchases.contains(purchase))
   }
+
+  "fifteenth exercice" should "be abe to reset quantities in a website store" in {
+    val merchandise = new Merchandise("marco", price = 4)
+    val merchandise1 = new Merchandise("polo", price = 10)
+    Given("a websiteStore with quantities not null")
+    val websiteStore = WebsiteStore(Map(merchandise -> 1, merchandise1 -> 3))
+    When("resetting quantities")
+    val newWebsiteStore = websiteStore.resetQuantities
+    Then("quantities must be zero")
+    newWebsiteStore.merchandises.foreach(_._2 shouldEqual 0)
+
+
+  }
 }
