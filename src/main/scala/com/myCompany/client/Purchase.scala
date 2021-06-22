@@ -16,13 +16,13 @@ class Purchase(val merchandise: Merchandise, val hours: Int = 0, val minutes: In
 
 object Purchase {
 
-  def makePurchase(websiteStore: WebsiteStore, client: WebsiteClient): WebsiteStore = {
-    if(client.verified) websiteStore.copy(quantity = websiteStore.quantity - 1)
-    else websiteStore
-  }
-
-  def cancelPurchase(websiteStore: WebsiteStore, client: WebsiteClient): WebsiteStore = {
-    if(client.verified) websiteStore.copy(quantity = websiteStore.quantity + 1)
-    else websiteStore
-  }
+//  def makePurchase(websiteStore: WebsiteStore, client: WebsiteClient): WebsiteStore = {
+//    if(client.verified) websiteStore.copy(quantity = websiteStore.quantity - 1)
+//    else websiteStore
+//  }
+//
+//  def cancelPurchase(websiteStore: WebsiteStore, client: WebsiteClient): (WebsiteStore, WebsiteClient) = {
+//    if(client.verified) websiteStore.copy(quantity = websiteStore.quantity + 1)
+//    else websiteStore
+//  }
 }

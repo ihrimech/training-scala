@@ -89,18 +89,18 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     assert(isCheaper, "Method isCheaperThan isn't working properly")
   }
 
-  "ninth exercise" should "be able to make a purchase in a store" in {
-    Given("A WebsiteStore instance")
-    val merchandise = new Merchandise("polo", price = 34)
-    val websiteStore = WebsiteStore(merchandise, 10)
-    val client = WebsiteClient("Rick", verified = true)
-    When("Making a purchase or cancelling one")
-    val websiteStoreMakePurchase = Purchase.makePurchase(websiteStore, client)
-    val websiteStoreCancelPurchase = Purchase.cancelPurchase(websiteStore, client)
-    Then("the quantity must have been lower in a purchase")
-    websiteStoreMakePurchase.quantity shouldEqual websiteStore.quantity - 1
-    websiteStoreCancelPurchase.quantity shouldEqual websiteStore.quantity + 1
-  }
+//  "ninth exercise" should "be able to make a purchase in a store" in {
+//    Given("A WebsiteStore instance")
+//    val merchandise = new Merchandise("polo", price = 34)
+//    val websiteStore = WebsiteStore(merchandise, 10)
+//    val client = WebsiteClient("Rick", verified = true)
+//    When("Making a purchase or cancelling one")
+//    val websiteStoreMakePurchase = Purchase.makePurchase(websiteStore, client)
+//    val websiteStoreCancelPurchase = Purchase.cancelPurchase(websiteStore, client)
+//    Then("the quantity must have been lower in a purchase")
+//    websiteStoreMakePurchase.quantity shouldEqual websiteStore.quantity - 1
+//    websiteStoreCancelPurchase.quantity shouldEqual websiteStore.quantity + 1
+//  }
 
   "tenth exercise" should "have preconditions for hours and minutes" in {
     Given("hours above 23 and minutes below 0")
@@ -114,14 +114,36 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     new Purchase(merchandise, 0, 0).asMinutes shouldEqual 0
   }
 
-  "thirteenth exercise" should "test that a client cannot make a purchase unless verified" in {
-    Given("A client that isn't verified")
+//  "thirteenth exercise" should "test that a client cannot make a purchase unless verified" in {
+//    Given("A client that isn't verified")
+//    val merchandise = new Merchandise("marco", price = 4)
+//    val websiteStore = WebsiteStore(merchandise, 1)
+//    val client = WebsiteClient("Rick", verified = false)
+//    When("Making a purchase")
+//    val newWebsiteStore = Purchase.makePurchase(websiteStore, client)
+//    Then("The quantity shouldn't change")
+//    newWebsiteStore.quantity shouldEqual websiteStore.quantity
+//  }
+
+  "fourteenth exercice" should "define a set of purchase for websiteClient and redefine WebsiteStore" in {
+    Given("A websiteStore and two merchandises")
     val merchandise = new Merchandise("marco", price = 4)
-    val websiteStore = WebsiteStore(merchandise, 1)
-    val client = WebsiteClient("Rick", verified = false)
-    When("Making a purchase")
-    val newWebsiteStore = Purchase.makePurchase(websiteStore, client)
-    Then("The quantity shouldn't change")
-    newWebsiteStore.quantity shouldEqual websiteStore.quantity
+    val merchandise1 = new Merchandise("polo", price = 10)
+    val websiteStore = WebsiteStore(Map(merchandise -> 1))
+    When("adding merchandises")
+    val newStore = websiteStore.addMerchandise(merchandise1, 10)
+    Then("merchandise map must be updated")
+    newStore.merchandises(merchandise1) shouldEqual 10
+
+    Given("a purchase")
+    val purchase = new Purchase(merchandise, 2, 12)
+    val purchase1 = new Purchase(merchandise1, 2, 12)
+    val client = WebsiteClient("morty", verified = true, Set(purchase))
+    When("adding a purchase to a client")
+    val clientAfterPurchase = client.addPurchase(purchase1)
+    val clientRemovePurchase = client.removePurchase(purchase)
+    Then("the purchase should exist in client portfolio")
+    assert(clientAfterPurchase.purchases.contains(purchase1))
+    assert(!clientRemovePurchase.purchases.contains(purchase))
   }
 }

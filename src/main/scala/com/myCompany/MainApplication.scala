@@ -9,12 +9,9 @@ object MainApplication extends App {
     name = "jeans",
     price = 40.0
   )
-  val websiteStore = WebsiteStore(
-    merchandise = merchandise,
-    quantity = 10
-  )
-  val client = WebsiteClient(name = "Rick", verified = true)
-  val storeAfterPurchase = Purchase.makePurchase(websiteStore, client)
+  val websiteStore = WebsiteStore(Map(merchandise -> 10))
+  val client = WebsiteClient(name = "Rick", verified = true, purchases = Set.empty)
+//  val storeAfterPurchase = Purchase.makePurchase(websiteStore, client)
 
-  println("purchased " + storeAfterPurchase.merchandise.name + ". Quantity left: " + storeAfterPurchase.quantity)
+//  println("purchased " + storeAfterPurchase.merchandise.name + ". Quantity left: " + storeAfterPurchase.quantity)
 }
