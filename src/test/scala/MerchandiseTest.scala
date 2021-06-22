@@ -1,5 +1,6 @@
 import com.myCompany.merchandise.Merchandise
 import com.myCompany.purchase.Purchase
+import com.myCompany.store.WebsiteStore
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
@@ -83,8 +84,20 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     val merchandise1 = new Merchandise("testMerchandise", price = 10)
     val merchandise2 = new Merchandise("testMerchandise2", price = 20)
     When("Comparing both merchandises")
-    val isCheaper = merchandise1 isCheaperThan merchandise2
+    val isCheaper = merchandise1 < merchandise2
     Then("result should be true")
     assert(isCheaper, "Method isCheaperThan isn't working properly")
+  }
+
+  "ninth exercise" should "be able to make a purchase in a store" in {
+    Given("A WebsiteStore instance")
+    val merchandise = new Merchandise("polo", price = 34)
+    val websiteStore = new WebsiteStore(merchandise, 10)
+    When("Making a purchase or cancelling one")
+    val websiteStoreMakePurchase = Purchase.makePurchase(websiteStore)
+    val websiteStoreCancelPurchase = Purchase.cancelPurchase(websiteStore)
+    Then("the quantity must have been lower in a purchase")
+    websiteStoreMakePurchase.quantity shouldEqual websiteStore.quantity - 1
+    websiteStoreCancelPurchase.quantity shouldEqual websiteStore.quantity + 1
   }
 }
