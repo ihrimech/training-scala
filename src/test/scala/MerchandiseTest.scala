@@ -6,6 +6,12 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 
 class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThen{
+  val merchandise = new Merchandise("marco", price = 4)
+  val merchandise1 = new Merchandise("polo", price = 10)
+  val purchase = new Purchase(merchandise, 2, 12)
+  val purchase1 = new Purchase(merchandise1, 2, 12)
+  val client: WebsiteClient = WebsiteClient("Rick", verified = true, Set(purchase, purchase1))
+  val websiteStore: WebsiteStore = WebsiteStore(Map(merchandise -> 1, merchandise1 -> 3), Set(client))
 
   "First Exercise" should "Implement a com.myCompany.merchandise.Merchandise Class" in {
     Given("A merchandise to implement")
@@ -127,18 +133,15 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
 
   "fourteenth exercice" should "define a set of purchase for websiteClient and redefine WebsiteStore" in {
     Given("A websiteStore and two merchandises")
-    val merchandise = new Merchandise("marco", price = 4)
     val merchandise1 = new Merchandise("polo", price = 10)
-    val websiteStore = WebsiteStore(Map(merchandise -> 1))
+    val websiteStore = WebsiteStore(Map(merchandise -> 1), Set(client))
     When("adding merchandises")
     val newStore = websiteStore.addMerchandise(merchandise1, 10)
     Then("merchandise map must be updated")
     newStore.merchandises(merchandise1) shouldEqual 10
 
     Given("a purchase")
-    val purchase = new Purchase(merchandise, 2, 12)
     val purchase1 = new Purchase(merchandise1, 2, 12)
-    val client = WebsiteClient("morty", verified = true, Set(purchase))
     When("adding a purchase to a client")
     val clientAfterPurchase = client.addPurchase(purchase1)
     val clientRemovePurchase = client.removePurchase(purchase)
@@ -148,15 +151,19 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
   }
 
   "fifteenth exercice" should "be abe to reset quantities in a website store" in {
-    val merchandise = new Merchandise("marco", price = 4)
-    val merchandise1 = new Merchandise("polo", price = 10)
     Given("a websiteStore with quantities not null")
-    val websiteStore = WebsiteStore(Map(merchandise -> 1, merchandise1 -> 3))
     When("resetting quantities")
     val newWebsiteStore = websiteStore.resetQuantities
     Then("quantities must be zero")
     newWebsiteStore.merchandises.foreach(_._2 shouldEqual 0)
+  }
 
-
+  "sixteenth exercise" should "be able to list sold products" in {
+    Given("a websiteStore")
+    When("calling soldProducts")
+    val soldProducts = websiteStore.soldProducts
+    Then("a list of sold products should be returned")
+    soldProducts should contain(merchandise.name)
+    soldProducts should contain(merchandise1.name)
   }
 }
