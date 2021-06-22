@@ -100,4 +100,16 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     websiteStoreMakePurchase.quantity shouldEqual websiteStore.quantity - 1
     websiteStoreCancelPurchase.quantity shouldEqual websiteStore.quantity + 1
   }
+
+  "tenth exercise" should "have preconditions for hours and minutes" in {
+    Given("hours above 23 and minutes below 0")
+    val merchandise = new Merchandise("polo", price = 34)
+    When("creating a new Purchase")
+    Then("an IllegalArgumentException must be thrown")
+    assertThrows[IllegalArgumentException](new Purchase(merchandise, 55, 0))
+    assertThrows[IllegalArgumentException](new Purchase(merchandise, -15, 0))
+    assertThrows[IllegalArgumentException](new Purchase(merchandise, 0, 120))
+    assertThrows[IllegalArgumentException](new Purchase(merchandise, 0, -3))
+    new Purchase(merchandise, 0, 0).asMinutes shouldEqual 0
+  }
 }
