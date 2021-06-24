@@ -181,7 +181,7 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     val cap = Caps("casquette", 12.5)
     val shoes = Shoes("basket", 33)
     Then("description must have been overriden for both")
-    cap.description.toLowerCase should contain("cap")
-    shoes.description.toLowerCase should contain("shoe")
+    cap.description.toLowerCase.split(" ") should contain("caps")
+    shoes.description.toLowerCase.split(" ") should contain("shoes")
   }
 }
