@@ -1,5 +1,6 @@
 import com.myCompany.merchandise.{Caps, Merchandise, Shoes}
 import com.myCompany.client.{Purchase, WebsiteClient}
+import com.myCompany.payment.{BankTransfer, Check, CreditCard}
 import com.myCompany.store.WebsiteStore
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
@@ -181,7 +182,19 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     val cap = Caps("casquette", 12.5)
     val shoes = Shoes("basket", 33)
     Then("description must have been overriden for both")
-    cap.description.toLowerCase should contain("cap")
-    shoes.description.toLowerCase should contain("shoe")
+    cap.description.toLowerCase.split(" ") should contain("caps")
+    shoes.description.toLowerCase.split(" ") should contain("shoes")
+  }
+
+  "20th exercise" should "defined an ADT" in {
+    val check = Check(10)
+    val bankTransfer = BankTransfer(1)
+    val creditCard = CreditCard(0.5)
+    val creditCard1 = CreditCard(1.5)
+
+    check.accepted shouldBe false
+    bankTransfer.accepted shouldBe true
+    creditCard.accepted shouldBe false
+    creditCard1.accepted shouldBe true
   }
 }
