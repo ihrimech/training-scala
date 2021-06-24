@@ -8,10 +8,11 @@ import org.scalatest.matchers.should
 class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThen{
   val merchandise = new Merchandise("marco", price = 4)
   val merchandise1 = new Merchandise("polo", price = 10)
+  val merchandise2 = new Merchandise("jeans", price = 20)
   val purchase = new Purchase(merchandise, 2, 12)
   val purchase1 = new Purchase(merchandise1, 2, 12)
   val client: WebsiteClient = WebsiteClient("Rick", verified = true, Set(purchase, purchase1))
-  val websiteStore: WebsiteStore = WebsiteStore(Map(merchandise -> 1, merchandise1 -> 3), Set(client))
+  val websiteStore: WebsiteStore = WebsiteStore(Map(merchandise -> 1, merchandise1 -> 3, merchandise2 -> 0), Set(client))
 
   "First Exercise" should "Implement a com.myCompany.merchandise.Merchandise Class" in {
     Given("A merchandise to implement")
@@ -165,5 +166,13 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     Then("a list of sold products should be returned")
     soldProducts should contain(merchandise.name)
     soldProducts should contain(merchandise1.name)
+  }
+
+  "seventeenth exercise" should "be able to filter out empty stock" in {
+    Given("a websiteStore")
+    When("calling availableMerc")
+    val notNullMerch = websiteStore.availableMerc
+    Then("only available product must be in the Map")
+    notNullMerch.foreach(_._2 shouldNot equal(0))
   }
 }
