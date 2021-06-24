@@ -11,13 +11,14 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
   val shoesName = "marco"
   val shoesSize = "43"
   val shoesFabric = "cotton"
+  val quantityMerchandise = 1
   val merchandise: Shoes = Shoes(shoesName, price = price, size = shoesSize, fabric = shoesFabric)
   val merchandise1: Caps = Caps("polo", price = 10, size = "M", fabric = "polyester")
   val merchandise2: Repair = Repair("jeans", price = 20)
   val purchase = new Purchase(merchandise, 2, 12)
   val purchase1 = new Purchase(merchandise1, 2, 12)
   val client: WebsiteClient = WebsiteClient("Rick", verified = true, Set(purchase, purchase1))
-  val websiteStore: WebsiteStore = WebsiteStore(Map(merchandise -> 1, merchandise1 -> 3, merchandise2 -> 0), Set(client))
+  val websiteStore: WebsiteStore = WebsiteStore(Map(merchandise -> quantityMerchandise, merchandise1 -> 3, merchandise2 -> 0), Set(client))
 
   "First Exercise" should "Implement a com.myCompany.merchandise.Merchandise Class" in {
     Given("A merchandise to implement")
@@ -89,19 +90,6 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     assert(isCheaper, "Method isCheaperThan isn't working properly")
   }
 
-//  "ninth exercise" should "be able to make a purchase in a store" in {
-//    Given("A WebsiteStore instance")
-//    val merchandise = new Merchandise("polo", price = 34)
-//    val websiteStore = WebsiteStore(merchandise, 10)
-//    val client = WebsiteClient("Rick", verified = true)
-//    When("Making a purchase or cancelling one")
-//    val websiteStoreMakePurchase = Purchase.makePurchase(websiteStore, client)
-//    val websiteStoreCancelPurchase = Purchase.cancelPurchase(websiteStore, client)
-//    Then("the quantity must have been lower in a purchase")
-//    websiteStoreMakePurchase.quantity shouldEqual websiteStore.quantity - 1
-//    websiteStoreCancelPurchase.quantity shouldEqual websiteStore.quantity + 1
-//  }
-
   "tenth exercise" should "have preconditions for hours and minutes" in {
     Given("hours above 23 and minutes below 0")
     When("creating a new Purchase")
@@ -112,17 +100,6 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     assertThrows[IllegalArgumentException](new Purchase(merchandise, 0, -3))
     new Purchase(merchandise, 0, 0).asMinutes shouldEqual 0
   }
-
-//  "thirteenth exercise" should "test that a client cannot make a purchase unless verified" in {
-//    Given("A client that isn't verified")
-//    val merchandise = new Merchandise("marco", price = 4)
-//    val websiteStore = WebsiteStore(merchandise, 1)
-//    val client = WebsiteClient("Rick", verified = false)
-//    When("Making a purchase")
-//    val newWebsiteStore = Purchase.makePurchase(websiteStore, client)
-//    Then("The quantity shouldn't change")
-//    newWebsiteStore.quantity shouldEqual websiteStore.quantity
-//  }
 
   "fourteenth exercice" should "define a set of purchase for websiteClient and redefine WebsiteStore" in {
     Given("A websiteStore and two merchandises")
@@ -189,5 +166,20 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
   "21th exercice" should "Create a Clothes traits" in {
     merchandise.size shouldEqual shoesSize
     merchandise.fabric shouldEqual shoesFabric
+  }
+
+  "22th exercise" should "be able to make a purchase and restock" in {
+    Given("website stores")
+    When("Making purchases and restock")
+    val merchandisesAfterPurchase = websiteStore.purchaseMerchandise(merchandise)
+    val merchandisesAfterPurchase2 = websiteStore.purchaseMerchandise(merchandise2)
+    val merchandisesAfterRestock = websiteStore.restockMerchandise(merchandise, 12)
+
+    Then("the stock should be updated")
+    merchandisesAfterPurchase.find(_._1 == merchandise).foreach(_._2 shouldEqual quantityMerchandise - 1)
+    merchandisesAfterRestock.find(_._1 == merchandise).foreach(_._2 shouldEqual quantityMerchandise + 12)
+    And("if merchandise quantity is zero then don't make the purchase")
+    merchandisesAfterPurchase2.find(_._1 == merchandise2).foreach(_._2 shouldEqual 0)
+
   }
 }
