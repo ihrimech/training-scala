@@ -1,4 +1,4 @@
-import com.myCompany.merchandise.Merchandise
+import com.myCompany.merchandise.{Caps, Merchandise, Shoes}
 import com.myCompany.client.{Purchase, WebsiteClient}
 import com.myCompany.store.WebsiteStore
 import org.scalatest.GivenWhenThen
@@ -174,5 +174,14 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     val notNullMerch = websiteStore.availableMerc
     Then("only available product must be in the Map")
     notNullMerch.foreach(_._2 shouldNot equal(0))
+  }
+
+  "nineteenth exercise" should "have defined Shoe and Caps" in {
+    Given("a shoe and a Cap")
+    val cap = Caps("casquette", 12.5)
+    val shoes = Shoes("basket", 33)
+    Then("description must have been overriden for both")
+    cap.description.toLowerCase should contain("cap")
+    shoes.description.toLowerCase should contain("shoe")
   }
 }
