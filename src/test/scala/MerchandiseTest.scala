@@ -1,4 +1,4 @@
-import com.myCompany.merchandise.{Caps, Merchandise, Shoes}
+import com.myCompany.merchandise.{Caps, Merchandise, Repair, Shoes}
 import com.myCompany.client.{Purchase, WebsiteClient}
 import com.myCompany.payment.{BankTransfer, Check, CreditCard}
 import com.myCompany.store.WebsiteStore
@@ -7,9 +7,13 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 
 class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThen{
-  val merchandise = new Merchandise("marco", price = 4)
-  val merchandise1 = new Merchandise("polo", price = 10)
-  val merchandise2 = new Merchandise("jeans", price = 20)
+  val price = 4
+  val shoesName = "marco"
+  val shoesSize = "43"
+  val shoesFabric = "cotton"
+  val merchandise: Shoes = Shoes(shoesName, price = price, size = shoesSize, fabric = shoesFabric)
+  val merchandise1: Caps = Caps("polo", price = 10, size = "M", fabric = "polyester")
+  val merchandise2: Repair = Repair("jeans", price = 20)
   val purchase = new Purchase(merchandise, 2, 12)
   val purchase1 = new Purchase(merchandise1, 2, 12)
   val client: WebsiteClient = WebsiteClient("Rick", verified = true, Set(purchase, purchase1))
@@ -20,28 +24,23 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     val name = "testMerchandise"
     val price = 1.4d
     When("Implementing the class merchandise")
-    val merchandise = new Merchandise(name = name, price = price)
     Then("the implementation should have worked")
     price shouldBe 1.4d
   }
 
   "second Exercise" should "promote parameters to fields" in {
     Given("A merchandise to implement")
-    val name = "testMerchandise"
-    val price = 1.4d
     When("Implementing the class merchandise")
-    val merchandise = new Merchandise(name = name, price = price)
     Then("The promotion should work")
     merchandise.price shouldBe price
-    merchandise.name shouldBe name
+    merchandise.name shouldBe shoesName
     And("the description field should be correctly constructed")
     merchandise.description.contains(price.toString) shouldBe true
-    merchandise.description.contains(name) shouldBe true
+    merchandise.description.contains(shoesName) shouldBe true
   }
 
   "third Exercise" should "create a purchase with promoter parameters" in {
     Given("A merchandise to implement")
-    val merchandise = new Merchandise("testMerchandise", price = 12)
     When("Creating a purchase")
     val purchase = new Purchase(merchandise, 23, 12)
     Then("purchase should have promoted fields")
@@ -51,7 +50,6 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
 
   "fourth Exercise" should "correctly calculates minutes" in {
     Given("A merchandise and a purchase")
-    val merchandise = new Merchandise("testMerchandise", price = 12)
     val purchase = new Purchase(merchandise, 2, 12)
     When("Calculating purchase time in minutes")
     val purchaseTime = 2*60 + 12
@@ -61,27 +59,23 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
 
   "fifth Exercise" should "define a isCheapMethod" in {
     Given("A merchandise with a price of 12")
-    val merchandise = new Merchandise("testMerchandise", price = 12)
     When("defining the cheap limit to 11")
-    val cheapLimit = 11
     Then("the merchandise shouldn't be cheap")
-    merchandise.isCheap(cheapLimit) shouldBe false
-    merchandise.isCheap(13) shouldBe true
+    merchandise.isCheap(price - 1) shouldBe false
+    merchandise.isCheap(price + 1) shouldBe true
   }
 
   "sixth Exercise" should "define a % infix operator for promotions" in {
     Given("A merchandise with a price of 100")
-    val merchandise = new Merchandise("testMerchandise", price = 100)
     val purchase = new Purchase(merchandise, 2, 12)
     When("defining a 50% promotion")
     val promotion = 0.5
     Then("the returned price should be half the original")
-    purchase % promotion shouldBe 50
+    purchase % promotion shouldBe price * promotion
   }
 
   "seventh Exercise" should "define default arguments" in {
     Given("A purchase without hours and minutes")
-    val merchandise = new Merchandise("testMerchandise", price = 100)
     val purchase = new Purchase(merchandise)
     Then("default hours and minutes should be zéro")
     purchase.hours shouldBe 0
@@ -89,8 +83,6 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
   }
   it should "define a cheaperThan method" in {
     Given("two merchandise with prices of 10 and 20")
-    val merchandise1 = new Merchandise("testMerchandise", price = 10)
-    val merchandise2 = new Merchandise("testMerchandise2", price = 20)
     When("Comparing both merchandises")
     val isCheaper = merchandise1 < merchandise2
     Then("result should be true")
@@ -112,7 +104,6 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
 
   "tenth exercise" should "have preconditions for hours and minutes" in {
     Given("hours above 23 and minutes below 0")
-    val merchandise = new Merchandise("polo", price = 34)
     When("creating a new Purchase")
     Then("an IllegalArgumentException must be thrown")
     assertThrows[IllegalArgumentException](new Purchase(merchandise, 55, 0))
@@ -135,7 +126,6 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
 
   "fourteenth exercice" should "define a set of purchase for websiteClient and redefine WebsiteStore" in {
     Given("A websiteStore and two merchandises")
-    val merchandise1 = new Merchandise("polo", price = 10)
     val websiteStore = WebsiteStore(Map(merchandise -> 1), Set(client))
     When("adding merchandises")
     val newStore = websiteStore.addMerchandise(merchandise1, 10)
@@ -179,11 +169,9 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
 
   "nineteenth exercise" should "have defined Shoe and Caps" in {
     Given("a shoe and a Cap")
-    val cap = Caps("casquette", 12.5)
-    val shoes = Shoes("basket", 33)
     Then("description must have been overriden for both")
-    cap.description.toLowerCase.split(" ") should contain("caps")
-    shoes.description.toLowerCase.split(" ") should contain("shoes")
+    merchandise1.description.toLowerCase.split(" ") should contain("caps")
+    merchandise.description.toLowerCase.split(" ") should contain("shoes")
   }
 
   "20th exercise" should "defined an ADT" in {
@@ -196,5 +184,10 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     bankTransfer.accepted shouldBe true
     creditCard.accepted shouldBe false
     creditCard1.accepted shouldBe true
+  }
+
+  "21th exercice" should "Create a Clothes traits" in {
+    merchandise.size shouldEqual shoesSize
+    merchandise.fabric shouldEqual shoesFabric
   }
 }
