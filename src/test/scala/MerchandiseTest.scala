@@ -180,6 +180,11 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     merchandisesAfterRestock.find(_._1 == merchandise).foreach(_._2 shouldEqual quantityMerchandise + 12)
     And("if merchandise quantity is zero then don't make the purchase")
     merchandisesAfterPurchase2.find(_._1 == merchandise2).foreach(_._2 shouldEqual 0)
+  }
 
+  "23th exercise" should "define payment methods" in {
+    purchase.makePayment(Check(12)).toLowerCase shouldEqual "payment refused"
+    purchase.makePayment(BankTransfer(12)).toLowerCase shouldEqual "payment pending"
+    purchase.makePayment(CreditCard(12)).toLowerCase shouldEqual "payment accepted"
   }
 }
