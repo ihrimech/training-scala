@@ -187,4 +187,9 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     purchase.makePayment(BankTransfer(12)).toLowerCase shouldEqual "payment pending"
     purchase.makePayment(CreditCard(12)).toLowerCase shouldEqual "payment accepted"
   }
+
+  "24th exercise" should "use options" in {
+    websiteStore.findMerchandise(shoesName) shouldBe Some(merchandise)
+    websiteStore.quickPurchase(shoesName).find(_._1 == merchandise).foreach(_._2 shouldEqual quantityMerchandise - 1)
+  }
 }
