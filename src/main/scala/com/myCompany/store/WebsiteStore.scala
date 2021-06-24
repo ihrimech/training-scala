@@ -8,7 +8,10 @@ case class WebsiteStore(merchandises: Map[Merchandise, Int], clients: Set[Websit
 
   def resetQuantities: WebsiteStore = WebsiteStore(merchandises.map(merchandise => merchandise._1 -> 0), clients)
 
-  def soldProducts: Set[String] = clients.flatMap(_.purchases.map(_.merchandise.name))
+  def soldProducts: Set[String] = for {
+    client <- clients
+    purchase <- client.purchases
+  } yield purchase.merchandise.name
 
   def availableMerc: Map[Merchandise, Int] = merchandises.filter(_._2 > 0)
 }
