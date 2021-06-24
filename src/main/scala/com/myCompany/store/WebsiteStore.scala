@@ -14,5 +14,17 @@ case class WebsiteStore(merchandises: Map[Merchandise, Int], clients: Set[Websit
   } yield purchase.merchandise.name
 
   def availableMerc: Map[Merchandise, Int] = merchandises.filter(_._2 > 0)
+
+  def purchaseMerchandise(merchandise: Merchandise): Map[Merchandise, Int] = merchandises.map{ merchandiseQuantity =>
+    merchandiseQuantity match {
+      case (merch, quantity) if merchandise == merchandise && quantity > 0 => (merch, quantity - 1)
+      case (m, q) => (m, q)
+    }
+  }
+
+  def restockMerchandise(merchandise: Merchandise, quantity: Int): Map[Merchandise, Int] = merchandises.map{
+    case (merch, quant) if merch == merchandise => (merch, quantity + quant)
+    case (m, q) => (m, q)
+  }
 }
 
