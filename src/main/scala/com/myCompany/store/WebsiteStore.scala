@@ -26,5 +26,16 @@ case class WebsiteStore(merchandises: Map[Merchandise, Int], clients: Set[Websit
     case (merch, quant) if merch == merchandise => (merch, quantity + quant)
     case (m, q) => (m, q)
   }
+
+  def findMerchandise(name: String): Option[Merchandise] = {
+    merchandises.find(_._1.name == name).map(_._1)
+  }
+
+  def quickPurchase(name: String): Map[Merchandise, Int] = {
+    findMerchandise(name) match {
+      case Some(merchandise) => purchaseMerchandise(merchandise)
+      case None => merchandises
+    }
+  }
 }
 
