@@ -180,6 +180,8 @@ class MerchandiseTest extends AnyFlatSpec with should.Matchers with GivenWhenThe
     merchandisesAfterRestock.find(_._1 == merchandise).foreach(_._2 shouldEqual quantityMerchandise + 12)
     And("if merchandise quantity is zero then don't make the purchase")
     merchandisesAfterPurchase2.find(_._1 == merchandise2).foreach(_._2 shouldEqual 0)
+    And("merchandise3 remains untouched")
+    merchandisesAfterPurchase2.find(_._1 == merchandise1).foreach(_._2 shouldEqual 3)
 
   }
 }
